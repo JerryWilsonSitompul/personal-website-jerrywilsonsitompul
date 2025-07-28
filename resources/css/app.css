@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * The CSS entry point for the personal website clone. Tailwind's
+ * directives above ensure that its base styles, components, and
+ * utilities are available throughout the application. Additional
+ * custom styles can be added here if needed.
+ */
