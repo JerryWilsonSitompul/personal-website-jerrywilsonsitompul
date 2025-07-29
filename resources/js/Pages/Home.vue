@@ -168,39 +168,92 @@
           <h2 class="text-2xl font-semibold mb-4">Featured Posts</h2>
           <div class="grid md:grid-cols-2 gap-6">
             <article
+              v-for="post in featuredPosts"
+              :key="post.id"
               class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition-shadow"
             >
+              <div v-if="post.featured_image" class="mb-4">
+                <img 
+                  :src="`/storage/${post.featured_image}`" 
+                  :alt="post.title"
+                  class="w-full h-32 object-cover rounded-lg"
+                />
+              </div>
               <h3 class="font-semibold text-lg mb-2">
-                PrayTime Reminder VSCode Extension – My First Open Source
-                Project
+                {{ post.title }}
               </h3>
               <p class="text-gray-600 text-sm mb-3">
-                A VSCode extension to remind you to pray on time. Released
-                July&nbsp;2025.
+                {{ post.excerpt }}
               </p>
-              <div class="flex flex-wrap gap-2 text-xs text-gray-500">
-                <span>#VSCode Extension</span>
-                <span>#Open Source</span>
-                <span>#Productivity</span>
+              <div class="flex items-center justify-between text-xs text-gray-500">
+                <div class="flex flex-wrap gap-2">
+                  <span v-if="post.category" :style="`color: ${post.category.color}`">
+                    #{{ post.category.name }}
+                  </span>
+                  <span v-for="tag in post.tags" :key="tag">
+                    #{{ tag }}
+                  </span>
+                </div>
+                <div class="flex items-center space-x-2">
+                  <span>{{ post.formatted_published_at }}</span>
+                  <span>•</span>
+                  <span>{{ post.reading_time }}</span>
+                </div>
               </div>
             </article>
-            <article
-              class="bg-white rounded-2xl shadow p-6 hover:shadow-lg transition-shadow"
-            >
-              <h3 class="font-semibold text-lg mb-2">
-                Release v1.0.3 Personal Website – GitLab Support &amp;
-                Structural Improvements
-              </h3>
-              <p class="text-gray-600 text-sm mb-3">
-                Highlights of the latest release of my personal website,
-                including structural improvements and GitLab integration.
-              </p>
-              <div class="flex flex-wrap gap-2 text-xs text-gray-500">
-                <span>#personal web</span>
-                <span>#release</span>
-                <span>#announcement</span>
-              </div>
-            </article>
+          </div>
+          <div v-if="featuredPosts.length === 0" class="text-center py-8">
+            <p class="text-gray-500">No featured posts available.</p>
+          </div>
+        </section>
+
+        <!-- All Posts -->
+        <section v-if="recentPosts.length > 0">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-2xl font-semibold">All Posts</h2>
+            <span class="text-sm text-gray-500">Browse all my content</span>
+          </div>
+          
+          <div class="bg-white rounded-2xl shadow">
+            <div class="divide-y divide-gray-200">
+              <article
+                v-for="post in recentPosts"
+                :key="post.id"
+                class="p-6 hover:bg-gray-50 transition-colors"
+              >
+                <div class="flex items-center justify-between">
+                  <div class="flex-1">
+                    <h3 class="font-semibold text-lg mb-2 text-gray-900">
+                      {{ post.title }}
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-3">
+                      {{ post.excerpt }}
+                    </p>
+                    <div class="flex items-center space-x-4 text-xs text-gray-500">
+                      <span v-if="post.category" class="flex items-center space-x-1">
+                        <span 
+                          class="w-2 h-2 rounded-full"
+                          :style="`background-color: ${post.category.color}`"
+                        ></span>
+                        <span>{{ post.category.name }}</span>
+                      </span>
+                      <span>{{ post.formatted_published_at }}</span>
+                      <span>{{ post.reading_time }}</span>
+                      <span v-if="post.is_featured" class="text-yellow-600 font-medium">
+                        ⭐ Featured
+                      </span>
+                    </div>
+                  </div>
+                  <div v-if="post.featured_image" class="ml-4">
+                    <img 
+                      :src="`/storage/${post.featured_image}`" 
+                      :alt="post.title"
+                      class="w-16 h-16 object-cover rounded-lg"
+                    />
+                  </div>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
       </main>
@@ -208,10 +261,21 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "Home",
-};
+<script setup>
+defineProps({
+  featuredPosts: {
+    type: Array,
+    default: () => []
+  },
+  recentPosts: {
+    type: Array,
+    default: () => []
+  },
+  categories: {
+    type: Array,
+    default: () => []
+  }
+});
 </script>
 
 <style scoped></style>
