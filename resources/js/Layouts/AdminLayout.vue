@@ -12,10 +12,10 @@
             </div>
             <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link
-                :href="route('admin.dashboard')"
+                href="/admin"
                 :class="[
                   'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
-                  route().current('admin.dashboard')
+                  $page.url === '/admin'
                     ? 'border-indigo-500 text-gray-900'
                     : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                 ]"
@@ -23,10 +23,10 @@
                 Dashboard
               </Link>
               <Link
-                :href="route('admin.posts.index')"
+                href="/admin/posts"
                 :class="[
                   'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
-                  route().current('admin.posts.*')
+                  $page.url.startsWith('/admin/posts')
                     ? 'border-indigo-500 text-gray-900'
                     : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                 ]"
@@ -34,10 +34,10 @@
                 Posts
               </Link>
               <Link
-                :href="route('admin.categories.index')"
+                href="/admin/categories"
                 :class="[
                   'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium',
-                  route().current('admin.categories.*')
+                  $page.url.startsWith('/admin/categories')
                     ? 'border-indigo-500 text-gray-900'
                     : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                 ]"
@@ -71,7 +71,7 @@
                   View Site
                 </Link>
                 <Link
-                  :href="route('logout')"
+                  href="/logout"
                   method="post"
                   as="button"
                   class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"

@@ -1,9 +1,22 @@
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import axios from 'axios';
 
 // Import the global stylesheet so that Tailwind classes are available
 import '../css/app.css';
+
+// Configure Axios to include CSRF token
+window.axios = axios;
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// Set up CSRF token for Axios
+const token = document.head.querySelector('meta[name="csrf-token"]');
+if (token) {
+    window.axios.defaults.headers.common['X-CSRF-TOKEN'] = token.content;
+} else {
+    console.error('CSRF token not found');
+}
 
 /*
  * This file bootstraps the Inertia.js application. It resolves Vue

@@ -1,9 +1,14 @@
 /vendor/
 /node_modules/
 /public/hot
+/public/build/
 /public/storage
 /storage/*.key
-/storage/logs/*.log
+/storage/logs/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+/storage/app/
 /.env
 /.env.backup
 /.env.production

@@ -118,7 +118,7 @@
                     <div class="flex-1 min-w-0">
                       <div class="flex items-center space-x-3">
                         <Link
-                          :href="route('admin.posts.show', post.id)"
+                          :href="`/admin/posts/${post.id}`"
                           class="text-sm font-medium text-indigo-600 hover:text-indigo-900 truncate"
                         >
                           {{ post.title }}
@@ -150,7 +150,7 @@
                     </div>
                     <div class="flex-shrink-0">
                       <Link
-                        :href="route('admin.posts.edit', post.id)"
+                        :href="`/admin/posts/${post.id}/edit`"
                         class="text-indigo-600 hover:text-indigo-900 text-sm font-medium"
                       >
                         Edit
@@ -160,7 +160,7 @@
                 </li>
               </ul>
               <div v-if="recent_posts.length === 0" class="px-4 py-12 text-center">
-                <p class="text-gray-500">No posts found. <Link :href="route('admin.posts.create')" class="text-indigo-600 hover:text-indigo-900">Create your first post</Link>.</p>
+                <p class="text-gray-500">No posts found. <Link href="/admin/posts/create" class="text-indigo-600 hover:text-indigo-900">Create your first post</Link>.</p>
               </div>
             </div>
           </div>

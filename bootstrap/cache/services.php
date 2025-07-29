@@ -30,9 +30,10 @@
     26 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     27 => 'Termwind\\Laravel\\TermwindServiceProvider',
     28 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    29 => 'Inertia\\ServiceProvider',
-    30 => 'App\\Providers\\AppServiceProvider',
-    31 => 'App\\Providers\\RouteServiceProvider',
+    29 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    30 => 'Inertia\\ServiceProvider',
+    31 => 'App\\Providers\\AppServiceProvider',
+    32 => 'App\\Providers\\RouteServiceProvider',
   ),
   'eager' => 
   array (
@@ -52,9 +53,10 @@
     13 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     14 => 'Termwind\\Laravel\\TermwindServiceProvider',
     15 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    16 => 'Inertia\\ServiceProvider',
-    17 => 'App\\Providers\\AppServiceProvider',
-    18 => 'App\\Providers\\RouteServiceProvider',
+    16 => 'Tighten\\Ziggy\\ZiggyServiceProvider',
+    17 => 'Inertia\\ServiceProvider',
+    18 => 'App\\Providers\\AppServiceProvider',
+    19 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (
