@@ -9,6 +9,7 @@
         </h2>
       </div>
       <form @submit.prevent="submit" class="mt-8 space-y-6">
+        <input type="hidden" name="_token" :value="$page.props.csrf_token" />
         <div class="rounded-md shadow-sm -space-y-px">
           <div>
             <label for="email" class="sr-only">Email address</label>
@@ -67,28 +68,71 @@
         <div v-if="form.errors.email" class="text-red-600 text-sm mt-2">
           {{ form.errors.email }}
         </div>
+
+        <!-- Debug information -->
+        <div
+          v-if="form.isDirty && !form.processing"
+          class="text-xs text-gray-500 mt-2"
+        >
+          Debug: Form is ready to submit
+        </div>
+
+        <div v-if="form.processing" class="text-xs text-blue-500 mt-2">
+          Debug: Processing login request...
+        </div>
+
+        <div v-if="form.wasSuccessful" class="text-xs text-green-500 mt-2">
+          Debug: Login was successful, redirecting...
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script setup>
-import { useForm } from '@inertiajs/vue3'
+import { useForm, usePage, router } from "@inertiajs/vue3";
+import { onMounted, computed } from 'vue';
+
+const page = usePage();
+const authUser = computed(() => page.props.auth.user);
+
+onMounted(() => {
+  if (authUser.value) {
+    console.log('User is already logged in, redirecting to admin...');
+    router.visit('/admin');
+  }
+});
 
 const form = useForm({
-  email: '',
-  password: '',
+  email: "",
+  password: "",
   remember: false,
-})
+  _token: page.props.csrf_token,
+});
 
 const submit = () => {
-  form.post('/login', {
-    onSuccess: () => {
-      // Redirect will be handled by the controller
+  console.log("Submitting login form with:", {
+    email: form.email,
+    password: form.password ? "[HIDDEN]" : "empty",
+    remember: form.remember,
+    csrf_token: page.props.csrf_token ? "present" : "missing",
+  });
+
+  form.post("/login", {
+    onSuccess: (page) => {
+      console.log("Login successful!", page);
+      // Force navigation to admin dashboard
+      router.visit('/admin', { 
+        method: 'get',
+        replace: true 
+      });
     },
     onError: (errors) => {
-      console.log('Login errors:', errors)
-    }
-  })
-}
+      console.log("Login errors:", errors);
+    },
+    onFinish: () => {
+      console.log("Login request finished");
+    },
+  });
+};
 </script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use App\Post;
 use App\Category;
@@ -25,6 +26,11 @@ class AdminController extends Controller
 
     public function index()
     {
+        Log::debug('=== ADMIN DASHBOARD ACCESS ===');
+        Log::debug('User: ' . auth()->user()->email);
+        Log::debug('Request URL: ' . request()->fullUrl());
+        Log::debug('Is Inertia: ' . (request()->header('X-Inertia') ? 'YES' : 'NO'));
+        
         $stats = [
             'total_posts' => Post::count(),
             'published_posts' => Post::published()->count(),

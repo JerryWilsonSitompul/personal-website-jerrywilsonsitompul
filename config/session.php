@@ -8,7 +8,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => env('SESSION_DRIVER', 'database'),
 
     /*
     |--------------------------------------------------------------------------
@@ -91,9 +91,14 @@ return [
     |--------------------------------------------------------------------------
     | Session Cookie Domain
     |--------------------------------------------------------------------------
+    |
+    | Here you may specify the domain of your session cookie. This will give
+    | you control over which domains your cookie is available to. By
+    | default, this is set to null but you may change this value.
+    |
     */
 
-    'domain' => env('SESSION_DOMAIN'),
+    'domain' => env('SESSION_DOMAIN', '127.0.0.1'),
 
     /*
     |--------------------------------------------------------------------------

@@ -35,9 +35,26 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register']);
 
+// Test route to check authentication
+Route::get('/test-auth', function() {
+    if (auth()->check()) {
+        $user = auth()->user();
+        return response()->json([
+            'authenticated' => true,
+            'user' => [
+                'id' => $user->id,
+                'email' => $user->email,
+                'is_admin' => $user->is_admin,
+                'role' => $user->role
+            ]
+        ]);
+    }
+    return response()->json(['authenticated' => false]);
+});
+
 // Admin routes
-Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('dashboard');
+// Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+    Route::get('/admin', [AdminController::class, 'index'])->name('dashboard');
     
     // Posts management
     Route::resource('posts', PostController::class);
@@ -46,4 +63,4 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
     
     // Categories management
     Route::resource('categories', CategoryController::class);
-});
+// });

@@ -34,7 +34,7 @@ class HomeController extends Controller
                          ->get();
 
         $categories = Category::withCount(['publishedPosts'])
-                            ->having('published_posts_count', '>', 0)
+                            ->whereHas('publishedPosts')
                             ->orderBy('name')
                             ->get();
 

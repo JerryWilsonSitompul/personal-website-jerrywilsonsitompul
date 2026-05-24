@@ -36,3 +36,24 @@ createInertiaApp({
         color: '#22c55e',
     },
 });
+
+// Additional CSRF token configuration for Inertia
+document.addEventListener('DOMContentLoaded', function() {
+    // Ensure CSRF token is available for all requests
+    const csrfToken = document.querySelector('meta[name="csrf-token"]');
+    if (csrfToken) {
+        // Set default headers for fetch requests
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options = {}) {
+            if (!options.headers) {
+                options.headers = {};
+            }
+            if (typeof options.headers.append === 'function') {
+                options.headers.append('X-CSRF-TOKEN', csrfToken.getAttribute('content'));
+            } else {
+                options.headers['X-CSRF-TOKEN'] = csrfToken.getAttribute('content');
+            }
+            return originalFetch(url, options);
+        };
+    }
+});

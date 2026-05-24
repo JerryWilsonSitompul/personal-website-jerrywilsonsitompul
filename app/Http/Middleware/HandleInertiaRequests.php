@@ -21,6 +21,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function version(Request $request): ?string
     {
+        if (app()->environment('local')) {
+            return null;
+        }
+
         return parent::version($request);
     }
 
@@ -32,6 +36,15 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
+            'auth' => [
+                'user' => $request->user() ? [
+                    'id' => $request->user()->id,
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                    'is_admin' => $request->user()->is_admin,
+                    'role' => $request->user()->role,
+                ] : null,
+            ],
             'csrf_token' => csrf_token(),
             'flash' => [
                 'message' => session('message'),
